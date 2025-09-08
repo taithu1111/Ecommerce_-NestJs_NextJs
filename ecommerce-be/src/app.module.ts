@@ -12,9 +12,9 @@ import { UsersModule } from './users/users.module';
      TypeOrmModule.forRoot({
       type: 'mysql',
       host: '127.0.0.1',
-      port: 3307,
+      port: 3306,
       username: 'root',
-      password: '12345678',
+      password: 'admin',
       database: 'ecommerce_db',
       autoLoadEntities: true,
       synchronize: true, // Chỉ dùng khi dev
