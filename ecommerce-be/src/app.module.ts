@@ -14,7 +14,7 @@ import { UsersModule } from './users/users.module';
       host: '127.0.0.1',
       port: 3306,
       username: 'root',
-      password: 'admin',
+      password: '12345678',
       database: 'ecommerce_db',
       autoLoadEntities: true,
       synchronize: true, // Chỉ dùng khi dev

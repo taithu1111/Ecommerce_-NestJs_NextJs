@@ -11,33 +11,54 @@ export class UsersService {
       constructor(@InjectRepository(UserEntity) private repo: Repository<UserEntity>) {}
 
 async create(dto: CreateUserDto) {
+  try {
+    console.log('[UsersService] create() DTO:', dto);
     const hashed = await bcrypt.hash(dto.password, 10);
     const user = this.repo.create({ ...dto, password: hashed });
-    return this.repo.save(user);
+    console.log('[UsersService] After repo.create:', user);
+    const savedUser = await this.repo.save(user);
+    console.log('[UsersService] After repo.save:', savedUser);
+    return savedUser;
+  } catch (err) {
+     console.error('[UsersService] Error in create():', err);
+      throw err;
+  }
+    
   }  
 
     findAll() {
+    console.log('[UsersService] findAll() called');
     return this.repo.find();
   }
 
   
   async findOne(id: number) {
+    console.log('[UsersService] findOne() id:', id);
     const user = await this.repo.findOneBy({ id });
-    if (!user) throw new NotFoundException('User not found');
+    if (!user) {
+      console.error('[UsersService] User not found, id:', id);
+      throw new NotFoundException('User not found');
+    }
     return user;
   }
 
-    async update(id: number, dto: UpdateUserDto) {
+  async update(id: number, dto: UpdateUserDto) {
+    console.log('[UsersService] update() id:', id, 'dto:', dto);
     const user = await this.findOne(id);
     if (dto.password) {
       dto.password = await bcrypt.hash(dto.password, 10);
     }
+
     Object.assign(user, dto);
-    return this.repo.save(user);
+    const updatedUser = await this.repo.save(user);
+    console.log('[UsersService] After update save:', updatedUser);
+    return updatedUser;
   }
 
-    async remove(id: number) {
+  async remove(id: number) {
+    console.log('[UsersService] remove() id:', id);
     const user = await this.findOne(id);
-    return this.repo.remove(user);
-  }
+    const deletedUser = await this.repo.remove(user);
+    console.log('[UsersService] After remove:', deletedUser);
+    return deletedUser;  }
 }

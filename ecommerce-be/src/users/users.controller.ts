@@ -9,25 +9,30 @@ export class UsersController {
 
     @Post()
     create(@Body() dto: CreateUserDto) {
+        console.log('[UsersController] POST /users - body:', dto);
         return this.usersService.create(dto);
     }
      @Get()
     findAll() {
+        console.log('[UsersController] GET /users');
         return this.usersService.findAll();
     }
 
      @Get(':id')
     findOne(@Param('id') id: string) {
+        console.log('[UsersController] GET /users/' + id);
         return this.usersService.findOne(Number(id));
     }
 
     @Put(':id')
     update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
+        console.log('[UsersController] PUT /users/' + id, 'body:', dto);
      return this.usersService.update(Number(id), dto);
     }
 
     @Delete(':id')
     remove(@Param('id') id: string) {
+        console.log('[UsersController] DELETE /users/' + id);
         return this.usersService.remove(Number(id));
   }
 }
