@@ -1,22 +1,23 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn } from 'typeorm';
 
-@Entity('users')
-export class UserEntity {
-      @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column({ length: 100 })
-  name: string;
+@Entity()
+export class User {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ unique: true })
   email: string;
 
   @Column()
-  password: string;
+  password: string; // LƯU: luôn hash trước khi save
 
-  @Column({ nullable: true })
-  address?: string;
+  @Column()
+  name: string;
 
-  @Column({ nullable: true })
-  familyPhone?: string;
+  // Lưu roles dưới dạng chuỗi phân cách (ví dụ: "user,admin")
+  @Column('simple-array', { default: 'user' })
+  roles: string[]; 
+
+  @CreateDateColumn()
+  createdAt: Date;
 }

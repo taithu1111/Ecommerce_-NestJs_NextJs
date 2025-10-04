@@ -1,17 +1,16 @@
-import { IsEmail, IsNotEmpty, MinLength  } from "class-validator";
-
+import { IsEmail, IsString, MinLength, IsOptional } from 'class-validator';
 
 export class CreateUserDto {
- @IsNotEmpty()
-  name: string;
-
   @IsEmail()
   email: string;
 
+  @IsString()
   @MinLength(6)
   password: string;
 
-  // optional
-  address?: string;
-  familyPhone?: string;
+  @IsString()
+  name: string;
+
+  @IsOptional()
+  roles?: string[]; // cho admin tạo user khác nếu cần
 }
